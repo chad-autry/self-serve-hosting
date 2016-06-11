@@ -1,0 +1,48 @@
+{
+  "author": "Chad Autry",
+  "name": "self-serve-hosting",
+  "version": "0.0.0",
+  "homepage": "self.serve.hosting",
+  "bugs": "https://github.com/chad-autry/self-serve-hosting/issues",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:chad-autry/self-serve-hosting.git"
+  },
+  "scripts": {
+    "test": "echo %npm_package_config_build_dir%",
+    "jshint": "jshint ./spa/app",
+    "clean": "rimraf ./src/main/webapp/spa/*",
+    "less": "lessc ./spa/less/main.less > ./src/main/webapp/spa/styles.css",
+    "build": "mkdirp ./src/main/webapp/spa ./src/main/webapp/spa/ && webpack -d"
+  },
+  "dependencies": {
+    "babel-loader": "^6.2.4",
+    "babel-preset-es2015": "^6.9.0",
+    "babel-preset-react": "^6.5.0",
+    "bootstrap": "^3.3.4",
+    "react": "^15.1.0",
+    "react-dom": "^15.1.0",
+    "webpack": "^1.13.1"
+  },
+  "devDependencies": {
+    "copyfiles": "0.2.1",
+    "jshint": "^2.6.3",
+    "less": "^2.4.0",
+    "mkdirp": "0.5.1",
+    "parallelshell": "^1.1.1",
+    "rimraf": "^2.2.8",
+    "stdout": "0.0.3"
+  },
+  "jshintConfig": {
+    "node": "true",
+    "predef": [
+      "document"
+    ]
+  },
+  "babel": {
+    "presets": [
+      "es2015",
+      "react"
+    ]
+  }
+}
