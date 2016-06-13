@@ -1,7 +1,5 @@
 /**
- * This servlet is for instance manipulation
- * Creating, Starting, Stopping, Listing, Deleteing
- * It also is responsible for executing commands on the instances related to the games hosted there
+ * This Controller communicates with the agent running on individual servers to control the applications
  */
 
 package hosting.serve.self;
@@ -30,8 +28,8 @@ import java.util.concurrent.TimeoutException;
 
 
 @Controller
-@RequestMapping("/servers")
-public class ServersController {
+@RequestMapping("/agent")
+public class AgentController {
 
     @RequestMapping("/createServer")
     @ResponseBody
