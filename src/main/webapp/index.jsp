@@ -6,17 +6,17 @@
 <html>
   <head>
     <meta charset="utf-8">
+    <!-- The local favicon -->
     <link rel="icon" type="image/x-icon" href="./resources/favicon.ico">
+    <!-- font awesome from BootstrapCDN -->
+    <link href="http://netdna.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.css" rel="stylesheet">
+    <!-- The compiled stylesheets -->
+    <link rel="stylesheet" type="text/css" href="styles.css" />
     <title>Self Serve Hosting</title>
   </head>
   <body>
     <script type="text/javascript">
 <%
-    String guestbookName = request.getParameter("guestbookName");
-    if (guestbookName == null) {
-        guestbookName = "default";
-    }
-    pageContext.setAttribute("guestbookName", guestbookName);
     UserService userService = UserServiceFactory.getUserService();
     User user = userService.getCurrentUser();
     if (user != null) {
