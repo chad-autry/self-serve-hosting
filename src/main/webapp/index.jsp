@@ -11,7 +11,7 @@
     <!-- font awesome from BootstrapCDN -->
     <link href="http://netdna.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.css" rel="stylesheet">
     <!-- The compiled stylesheets -->
-    <link rel="stylesheet" type="text/css" href="styles.css" />
+    <link rel="stylesheet" type="text/css" href="./spa/styles.css" />
     <title>Self Serve Hosting</title>
   </head>
   <body>
