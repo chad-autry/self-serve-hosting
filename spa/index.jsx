@@ -1,20 +1,6 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
 
-
-var App = React.createClass({
-  render: function() {
-    if (!!window.nickname ) {
-    return (
-      <p>Hello, {window.nickname}!  You can <a href={window.logoutURL}>sign out</a>.</p>
-    );
-    } else {
-        return (
-       <p>Please <a href={window.loginURL}>sign in</a>.</p>);
-    }
-  }
-});
-
 var NavBar = React.createClass({
   getInitialState: function() {
     return {
@@ -71,9 +57,36 @@ var NavBar = React.createClass({
   }
 });
 
+var Footer = React.createClass({
+  render: function() {
+    return (
+  <div className="container">
+	<div className="footer-inner">
+	  <p>
+		<i className="fa fa-copyright"></i> 2015 <a href="http://chad-autry.github.io/">Chad Autry</a>.
+	  </p>
+	</div>
+  </div>
+    );
+  }
+});
+
+var App = React.createClass({
+  render: function() {
+    return (
+        <div>
+        <NavBar isAuthenticated={this.props.isAuthenticated}
+      logoutUrl = {this.props.logoutUrl}
+      logonUrl = {this.props.logonUrl}
+      userName = {this.props.userName}/>
+      <Footer/>
+      </div>
+    );
+  }
+});
 
 ReactDOM.render(
-  <NavBar isAuthenticated={!!window.logoutURL}
+  <App isAuthenticated={!!window.logoutURL}
       logoutUrl = {window.logoutURL}
       logonUrl = {window.loginURL}
       userName = {window.nickname}/>,
