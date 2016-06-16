@@ -63,7 +63,7 @@ var Footer = React.createClass({
   <div className="container">
 	<div className="footer-inner">
 	  <p>
-		<i className="fa fa-copyright"></i> 2015 <a href="http://chad-autry.github.io/">Chad Autry</a>.
+		<i className="fa fa-copyright"></i> 2016 <a href="http://chad-autry.github.io/">Chad Autry</a>.
 	  </p>
 	</div>
   </div>
