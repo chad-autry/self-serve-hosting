@@ -30,52 +30,37 @@ var NavBar = React.createClass({
     return (
 <div className="container">
   <div className="navbar navbar-default">
-	<div className="navbar-header" onclick={this.menuClicked}>
+	<div className="navbar-header" onClick={this.menuClicked}>
 	  <div className="navbar-toggle">
 		<span className="sr-only">Toggle navigation</span>
-		<i className={this.state.menuCollapsed ? 'fa-chevron-right':'fa-chevron-down'} className='fa'></i>
+		<i className={this.state.menuCollapsed ? 'fa fa-chevron-right':'fa fa-chevron-down'}></i>
 	  </div>
 	  <div className="navbar-brand">
-		Self Serve Hosting
-		<small>
-		  <a className="navbar-link" href="https://github.com/chad-autry/self-serve-hosting/tree/master">
-			 master
-		  </a>
-		</small>
+		<i className="fa fa-cube"></i> Self Serve Hosting
 	  </div>
 	</div>
-	<div className="navbar-collapse">
+	<div className={this.state.menuCollapsed ? 'navbar-collapse hidden-xs' : 'navbar-collapse'}>
 	  <ul className="nav navbar-nav">
-		<li >
+		<li className="active"> {/*Hard Code Activity for now until introducing state*/}
 		  <a >
-			<i className="fa fa-home"></i>
-			Home
-		  </a>
-		</li>
-		<li>
-		  <a>
-			<i className="fa fa-download"></i>
-			Lazy Load Demo
+			<i className="fa fa-home"></i> Home
 		  </a>
 		</li>
 		<li>
 		  <a href="https://github.com/chad-autry/self-serve-hosting">
-			<i className="fa fa-github-alt"></i>
-			Github
+			<i className="fa fa-github-alt"></i> Github
 		  </a>
 		</li>
 		<li>
 		  <a href="https://github.com/chad-autry/self-serve-hosting/issues">
-			<i className="fa fa-comments"></i>
-			Support
+			<i className="fa fa-comments"></i> Support
 		  </a>
 		</li>
 	  </ul>
 	  <ul className="nav navbar-nav navbar-right">
-		<li >
-		  <a>
-			<i className="fa fa-user"></i>
-			Test
+		<li>
+		  <a href={this.props.isAuthenticated ? this.props.logoutUrl : this.props.logonUrl}>
+			<i className="fa fa-user"></i> {this.props.isAuthenticated ? this.props.userName + ' ': "Logon "}
 		  </a>
 		</li>
 	  </ul>
@@ -88,6 +73,9 @@ var NavBar = React.createClass({
 
 
 ReactDOM.render(
-  <NavBar/>,
+  <NavBar isAuthenticated={!!window.logoutURL}
+      logoutUrl = {window.logoutURL}
+      logonUrl = {window.loginURL}
+      userName = {window.nickname}/>,
   document.getElementById('app')
 );
