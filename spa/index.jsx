@@ -25,7 +25,9 @@ var NavBar = React.createClass({
 		<i className="fa fa-cube"></i> Self Serve Hosting
 	  </div>
 	</div>
-	<div className={this.state.menuCollapsed ? 'navbar-collapse hidden-xs' : 'navbar-collapse'}>
+	{ /*Programatically controll hiding the collapse using react.
+	    Due to hdpi devices, we're collapsible on both on both xs and sm screens */ }
+	<div className={this.state.menuCollapsed ? 'navbar-collapse hidden-xs hidden-sm' : 'navbar-collapse'}>
 	  <ul className="nav navbar-nav">
 		<li className="active"> {/*Hard Code Activity for now until introducing state*/}
 		  <a >
