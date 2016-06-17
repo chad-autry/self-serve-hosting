@@ -6,6 +6,7 @@
 <html>
   <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The local favicon -->
     <link rel="icon" type="image/x-icon" href="./resources/favicon.ico">
     <!-- font awesome from BootstrapCDN -->
