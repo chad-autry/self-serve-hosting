@@ -35,7 +35,7 @@
         }
     %>
     </script>
-    <div id="app" />
+    <div id="app" class="container"/>
     <script src="./spa/bundle.js" type="text/javascript"></script>
   </body>
 </html>
