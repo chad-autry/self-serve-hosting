@@ -13,7 +13,9 @@
     "jshint": "jshint ./spa/app",
     "clean": "rimraf ./src/main/webapp/spa/*",
     "less": "lessc ./spa/less/main.less > ./src/main/webapp/spa/styles.css",
-    "build": "mkdirp ./src/main/webapp/spa ./src/main/webapp/spa/ && webpack -d"
+    "build": "mkdirp ./src/main/webapp/spa/ && webpack -d",
+    "karma:single": "karma start karma-conf.js --log-level debug --single-run",
+    "build:specs": "mkdirp ./target && webpack -d --config webpack.tests.config.js"
   },
   "dependencies": {
     "babel-loader": "^6.2.4",
@@ -26,10 +28,17 @@
   },
   "devDependencies": {
     "copyfiles": "0.2.1",
+    "jasmine": "^2.4.1",
+    "jasmine-core": "^2.4.1",
     "jshint": "^2.6.3",
+    "karma": "^0.13.22",
+    "karma-cli": "^1.0.0",
+    "karma-jasmine": "^1.0.2",
+    "karma-phantomjs-launcher": "^1.0.0",
     "less": "^2.4.0",
     "mkdirp": "0.5.1",
     "parallelshell": "^1.1.1",
+    "phantomjs-prebuilt": "^2.1.7",
     "rimraf": "^2.2.8",
     "stdout": "0.0.3"
   },
