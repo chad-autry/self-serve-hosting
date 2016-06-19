@@ -6,6 +6,7 @@ ReactDOM.render(
   <MainApp isAuthenticated={!!window.logoutURL}
       logoutUrl = {window.logoutURL}
       logonUrl = {window.loginURL}
-      userName = {window.nickname}/>,
+      userName = {window.nickname}
+      isAdmin = {window.isAdmin}/>,
   document.getElementById('app')
 );

@@ -25,8 +25,9 @@
 %>
 
 
-    window.nickname="${fn:escapeXml(user.nickname)}"
-    window.logoutURL="<%= userService.createLogoutURL(request.getRequestURI()) %>"
+    window.nickname="${fn:escapeXml(user.nickname)}";
+    window.logoutURL="<%= userService.createLogoutURL(request.getRequestURI()) %>";
+    window.isAdmin=<%= userService.isUserAdmin() %>;
     <%
         } else {
     %>
