@@ -3,6 +3,9 @@ var Footer = require('./Footer.jsx');
 var NavBar = require('./NavBar.jsx');
 var React = require('react');
 
+//The fetch polyfill
+//require('whatwg-fetch');
+
 
 module.exports = React.createClass({
     

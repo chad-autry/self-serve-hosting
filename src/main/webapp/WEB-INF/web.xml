@@ -4,6 +4,7 @@
   xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
   version="2.5">
 
+  <!--Only Admin allowed during initial developement-->
   <security-constraint>
     <web-resource-collection>
       <url-pattern>/controllers/*</url-pattern>
@@ -38,6 +39,5 @@
   <listener>
       <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
   </listener>
-  <!--Only Admin allowed during initial developement-->
 
 </web-app>

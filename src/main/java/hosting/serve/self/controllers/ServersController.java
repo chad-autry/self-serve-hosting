@@ -10,10 +10,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.google.cloud.compute.AttachedDisk;
 import com.google.cloud.compute.Compute;
@@ -27,28 +25,47 @@ import com.google.cloud.compute.NetworkId;
 import com.google.cloud.compute.NetworkInterface;
 import com.google.cloud.compute.Operation;
 import java.util.concurrent.TimeoutException;
-
+import java.util.logging.Logger;
 
 @Controller
 @RequestMapping("/servers")
 public class ServersController {
+    private static final Logger log = Logger.getLogger(ServersController.class.getName());
 
-    @RequestMapping("/createServer")
+    @RequestMapping(path = "/createServer")
     @ResponseBody
-    public String createServer() throws IOException {
-        //TODO Make sure the user has privilege/funds to create a server
+    public String createServer(@RequestParam(value="serverName", required=false) String serverName) {
+        /*
+        @RequestParam("serverName") String serverName,
+                               @RequestParam("zone") String zoneName,
+                               @RequestParam("type") String instanceType,
+                               @RequestParam("disk") String diskSize
+        */
+        //String serverName = null;
+        String zoneName = null;
+        String instanceType = null;
+        String diskSize = null;
+        //TODO Check serverName
+        log.info("serverName: "+serverName);
+        //TODO Check zoneName
+        log.info("zoneName: "+zoneName);
+        //TODO Check instanceType
+        log.info("instanceType: "+instanceType);
+        //TODO Check diskSize
+        log.info("diskSize: "+diskSize);
+        //TODO Make sure the user has privilege/funds to create a server of the desired sizes
         Compute compute = ComputeOptions.defaultInstance().service();
         //TODO Make my own minecraft image which has the sftp, minecraft, and rdiff-backup docker containers pre-downloaded,
         ImageId imageId = ImageId.of("debian-cloud", "debian-8-jessie-v20160329");
         NetworkId networkId = NetworkId.of("default");
-        //TODO take and use disk size parameters (validate funds and not too small)
-        AttachedDisk attachedDisk = AttachedDisk.of(AttachedDisk.CreateDiskConfiguration.builder(imageId).autoDelete(true).build());
+
+        AttachedDisk attachedDisk = AttachedDisk.of(AttachedDisk.CreateDiskConfiguration.builder(imageId).autoDelete(true).build()); //.diskSizeGb(diskSize)
         NetworkInterface networkInterface = NetworkInterface.of(networkId);
         //TODO Take the location from the parameters (verify they are correct)
         //TODO Take the instance name from the parameters (qualify it to the user-id)
-        InstanceId instanceId = InstanceId.of("us-central1-a", "instance-name");
+        InstanceId instanceId = InstanceId.of(zoneName, serverName);
         //TODO Take the machine type from the paramenters (verify they are correct)
-        MachineTypeId machineTypeId = MachineTypeId.of("us-central1-a", "f1-micro");
+        MachineTypeId machineTypeId = MachineTypeId.of(zoneName, instanceType);
 
         Operation operation = compute.create(InstanceInfo.of(instanceId, machineTypeId, attachedDisk, networkInterface));
         try {

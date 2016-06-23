@@ -1,4 +1,5 @@
 var React = require('react');
+var jquery = require('jquery');
 /**
  * React component to create a Virtual Machine
  * Instance Types selector
@@ -9,7 +10,7 @@ var React = require('react');
  */
 module.exports = React.createClass({
     getInitialState: function() {
-        return {type: "n1-standard-4", zone:"us-central1-a", disk:20};
+        return {serverName: "" ,type: "n1-standard-4", zone:"us-central1-a", disk:20};
     },
     onDiskChange: function(event) {
         this.setState({disk:event.target.value});
@@ -30,8 +31,39 @@ module.exports = React.createClass({
             this.setState({disk:this.state.disk - 1});
         }
     },
+    nameChanged: function(event) {
+        this.setState({serverName:event.target.value});
+    },
+    createServer: function() {
+        /*
+        var urlWithParams = '/controllers/servers/createServer?'
+            .concat('serverName=').concat(encodeURIComponent(this.state.serverName))
+            .concat('&disk=').concat(encodeURIComponent(this.state.disk))
+            .concat('&zone=').concat(encodeURIComponent(this.state.zone))
+            .concat('&type=').concat(encodeURIComponent(this.state.type));
+            
+        fetch(urlWithParams, {credentials: 'same-origin', method: 'GET'})
+        .then(function(response) {
+            return response.json();
+        }).then(function(json) {
+            console.log('parsed json', json);
+        }).catch(function(ex) {
+            console.log('parsing failed', ex);
+        })
+        */
+        
+        jquery.ajax({
+        method: "GET",
+        url: "/controllers/servers/createServer/",
+        data: { serverName: this.state.serverName }
+        }).done(function( msg ) {
+            alert( "Data Saved: " + msg );
+        });
+        //, disk: this.state.disk, zone: this.state.zone, type: this.state.type
+    },
     render: function() {
         var isValid = false;
+        isValid = !!this.state.serverName && this.state.serverName.length < 40 && !(/[^a-zA-Z0-9\-]/.test( this.state.serverName ));
         
         return (
             <div className="panel panel-default">
@@ -39,9 +71,9 @@ module.exports = React.createClass({
                     <div className="panel-body">
                         <div className="row">
                             <div className="col-md-3">
-                                <div className="input-group">
+                                <div className={isValid ? "input-group has-success" : "input-group has-warning"}>
                                     <span className="input-group-addon" id="basic-addon1">Name</span>
-                                    <input type="text" className="form-control"/>
+                                    <input type="text" className="form-control" onChange={this.nameChanged} value={this.state.serverName}/>
                                 </div>
                             </div>
                             <div className="col-md-3">
@@ -79,7 +111,7 @@ module.exports = React.createClass({
                         </div>
                     </div>
                     <div className="panel-footer">
-                        <button type="button" className={isValid ? "btn btn-default" : "btn btn-default disabled"}>Create</button>
+                        <button type="button" onClick={this.createServer} className={isValid ? "btn btn-default" : "btn btn-default disabled"}>Create</button>
                     </div>
                 </div>
             );
