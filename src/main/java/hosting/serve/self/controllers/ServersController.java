@@ -34,41 +34,44 @@ public class ServersController {
 
     @RequestMapping("/createServer")
     @ResponseBody
-    public String createServer(@RequestParam(value="serverName", required=false) String serverName) {
-        /*
-        @RequestParam("serverName") String serverName,
+    public String createServer(@RequestParam("serverName") String serverName,
                                @RequestParam("zone") String zoneName,
                                @RequestParam("type") String instanceType,
-                               @RequestParam("disk") String diskSize
-        */
-        //String serverName = null;
-        String zoneName = null;
-        String instanceType = null;
-        String diskSize = null;
-        //TODO Check serverName
+                               @RequestParam("disk") long diskSize) {
+
+        //TODO Check serverName for special characters, check if qualifed server name exists
         log.info("serverName: "+serverName);
-        //TODO Check zoneName
+        //TODO Check zoneName is in the list of zone names
         log.info("zoneName: "+zoneName);
-        //TODO Check instanceType
+        //TODO Check instanceType is in the list of instance types
         log.info("instanceType: "+instanceType);
-        //TODO Check diskSize
+        //TODO Check diskSize is in the limited range allowed
         log.info("diskSize: "+diskSize);
         //TODO Make sure the user has privilege/funds to create a server of the desired sizes
-        Compute compute = ComputeOptions.defaultInstance().service();
+        
         //TODO Make my own minecraft image which has the sftp, minecraft, and rdiff-backup docker containers pre-downloaded,
+        //TODO Cache the imageId at the class level, it will be static
         ImageId imageId = ImageId.of("debian-cloud", "debian-8-jessie-v20160329");
-        NetworkId networkId = NetworkId.of("default");
+        
+        //Create the attached disk with the specified size
+        AttachedDisk attachedDisk = AttachedDisk.of(AttachedDisk.CreateDiskConfiguration.builder(imageId).autoDelete(true).diskSizeGb(diskSize).build());
 
-        AttachedDisk attachedDisk = AttachedDisk.of(AttachedDisk.CreateDiskConfiguration.builder(imageId).autoDelete(true).build()); //.diskSizeGb(diskSize)
-        NetworkInterface networkInterface = NetworkInterface.of(networkId);
-        //TODO Take the location from the parameters (verify they are correct)
-        //TODO Take the instance name from the parameters (qualify it to the user-id)
+        //TODO Qualify the instance name to the user.
         InstanceId instanceId = InstanceId.of(zoneName, serverName);
-        //TODO Take the machine type from the paramenters (verify they are correct)
         MachineTypeId machineTypeId = MachineTypeId.of(zoneName, instanceType);
 
+        //Default is the only network, bit of required boilerplate here.
+        //TODO Can I cache this boilerplate at the class level?
+        NetworkId networkId = NetworkId.of("default");
+        NetworkInterface networkInterface = NetworkInterface.of(networkId);
+        
+        //Create the desired GCE instance
+        //TODO Should/Can this service be cached at the class level?
+        Compute compute = ComputeOptions.defaultInstance().service();
         Operation operation = compute.create(InstanceInfo.of(instanceId, machineTypeId, attachedDisk, networkInterface));
         try {
+            //TODO Double check the instance creation timeout is < the GAE timeout
+            //The operation itself is Async, wait for it
             operation = operation.waitFor();
         } catch ( InterruptedException e) {
             //TODO Return an error to the user

@@ -55,11 +55,10 @@ module.exports = React.createClass({
         jquery.ajax({
         method: "GET",
         url: "/controllers/servers/createServer/",
-        data: { serverName: this.state.serverName }
+        data: { serverName: this.state.serverName, disk: this.state.disk, zone: this.state.zone, type: this.state.type }
         }).done(function( msg ) {
             alert( "Data Saved: " + msg );
         });
-        //, disk: this.state.disk, zone: this.state.zone, type: this.state.type
     },
     render: function() {
         var isValid = false;
