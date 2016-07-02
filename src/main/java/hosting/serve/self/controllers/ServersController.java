@@ -12,6 +12,7 @@ import java.io.PrintWriter;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.google.cloud.compute.AttachedDisk;
 import com.google.cloud.compute.Compute;
@@ -182,5 +183,14 @@ public class ServersController {
         } else {
             return operation.errors().toString();
         }
+    }
+
+    /*
+     * Returns the list of servers, all parameters requred, POST used for security
+     */
+    @RequestMapping(value="/getServers", method=RequestMethod.POST)
+    @ResponseBody
+    public String getServers() {
+        return "";
     }
 }
