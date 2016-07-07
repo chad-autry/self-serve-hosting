@@ -1,9 +1,3 @@
-/**
- * This servlet is for instance manipulation
- * Creating, Starting, Stopping, Listing, Deleteing
- * It also is responsible for executing commands on the instances related to the games hosted there
- */
-
 package hosting.serve.self.controllers;
 
 import java.io.IOException;
@@ -28,6 +22,11 @@ import com.google.cloud.compute.Operation;
 import java.util.concurrent.TimeoutException;
 import java.util.logging.Logger;
 
+/**
+ * This controller is for instance manipulation
+ * Creating, Starting, Stopping, Listing, Deleteing
+ * It also is responsible for executing commands on the instances related to the games hosted there
+ */
 @Controller
 @RequestMapping("/servers")
 public class ServersController {
@@ -186,7 +185,7 @@ public class ServersController {
     }
 
     /*
-     * Returns the list of servers, all parameters requred, POST used for security
+     * Returns the list of servers as JSON, all parameters requred, POST used for security
      */
     @RequestMapping(value="/getServers", method=RequestMethod.POST)
     @ResponseBody
