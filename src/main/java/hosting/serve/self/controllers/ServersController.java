@@ -32,7 +32,7 @@ import java.util.logging.Logger;
 public class ServersController {
     private static final Logger log = Logger.getLogger(ServersController.class.getName());
 
-    @RequestMapping("/createServer")
+    @RequestMapping(value="/createServer", method=RequestMethod.POST)
     @ResponseBody
     public String createServer(@RequestParam("serverName") String serverName,
                                @RequestParam("zone") String zoneName,

@@ -53,7 +53,7 @@ module.exports = React.createClass({
         */
         this.setState({creatingServer:true, alert:<div className="alert alert-info" role="alert">Creating Server</div>});
         jquery.ajax({
-        method: "GET",
+        method: "POST",
         url: "/controllers/servers/createServer/",
         data: { serverName: this.state.serverName, disk: this.state.disk, zone: this.state.zone, type: this.state.type }
         }).done((msg) => {
