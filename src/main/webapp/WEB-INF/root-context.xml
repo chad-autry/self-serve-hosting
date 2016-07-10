@@ -9,6 +9,24 @@
 
     <context:annotation-config />
 
+    <bean id="serversDAO" class="hosting.serve.self.daos.ServersDAO"/>
+    <bean id="defaultComputeOptions" class="com.google.cloud.compute.ComputeOptions"
+        factory-method="defaultInstance"/>
+    <bean id="compute"
+            factory-bean="defaultComputeOptions"
+            factory-method="service"/>
+        
+    <bean id="serversService" class="hosting.serve.self.services.ServersService">
+        <property name="serversDAO" ref="serversDAO"/>
+        <property name="compute" ref="compute"/>
+    </bean>
+    
+    <bean id="userService" class="com.google.appengine.api.users.UserServiceFactory"
+      factory-method="getUserService"/>
+
     <!--Our Single Controller for now-->
-    <bean id="serversController" class="hosting.serve.self.controllers.ServersController"/>
+    <bean id="serversController" class="hosting.serve.self.controllers.ServersController">
+        <property name="serversService" ref="serversService"/>
+        <property name="userService" ref="userService"/>
+    </bean>
 </beans>
