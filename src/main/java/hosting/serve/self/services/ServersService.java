@@ -1,6 +1,7 @@
 package hosting.serve.self.services;
 
 import hosting.serve.self.daos.ServersDAO;
+import hosting.serve.self.model.Server;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -22,6 +23,7 @@ import com.google.cloud.compute.NetworkId;
 import com.google.cloud.compute.NetworkInterface;
 import com.google.cloud.compute.Operation;
 import java.util.concurrent.TimeoutException;
+import java.util.List;
 import java.util.logging.Logger;
 
 /**
@@ -62,6 +64,10 @@ public class ServersService {
 
         Operation operation = compute.create(InstanceInfo.of(instanceId, machineTypeId, attachedDisk, networkInterface));
         return operation;
+    }
+    
+    public List<Server> getServers(String owner) {
+        return serversDAO.getServersByOwner(owner);
     }
     
     public void setCompute(Compute compute) {

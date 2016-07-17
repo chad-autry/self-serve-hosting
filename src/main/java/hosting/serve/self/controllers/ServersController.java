@@ -178,6 +178,12 @@ public class ServersController {
     @RequestMapping(value="/getServers", method=RequestMethod.POST)
     @ResponseBody
     public String getServers() {
+        //Who are we getting servers for? Are they authorized
+        //Whose servers can they see?
+        //Are there any optional filters/sort order on the request?
+        //What about paging parameters?
+        
+        //First pass: Return all servers only for the logged on user
         return "";
     }
     

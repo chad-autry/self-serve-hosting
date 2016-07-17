@@ -31,19 +31,23 @@ public class ServersServiceTest {
     }
 
     @Test
-    /*
-     * Initial test is only does the method exist
-     * Future Tests: Is the method annotated to handle errors?
-     *    Are the expected service/dao methods called in the correct order?
-     */
+    /* Future Tests: Is the method annotated to handle errors?*/
     public void testCreateServer() {
         serversService.createServer("serverName", "serverType", "instanceType", 20, "owner");
         //It is expected the DAO will be utilized first, then the GCE service.
         //We don't have 2 phase commit, so we retain the DS entity in case of Compute problems
         //The Mocked DAO method should have been called
-        //Then the mocked GCE service to create the instance
+        //Then the mocked GCE service to actually create the instance
         InOrder inOrder = Mockito.inOrder(serversDAO, compute);
         inOrder.verify(serversDAO).createServer(Matchers.anyString(), Matchers.anyString(), Matchers.anyString(), Matchers.anyLong(), Matchers.anyString());
         inOrder.verify(compute).create(Matchers.any(InstanceInfo.class));
+    }
+    
+    @Test
+    public void testGetServers() {
+        //For now just test that this method delegates to the DOA
+        //TODO: Test that the compute service is called to decorate it with additional information
+        serversService.getServers("owner");
+        Mockito.verify(serversDAO).getServersByOwner("owner");
     }
 }

@@ -9,8 +9,11 @@ import com.google.appengine.api.datastore.Query;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 
+import hosting.serve.self.model.Server;
+
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
+import java.util.List;
 
 import org.junit.After;
 import org.junit.Assert;
@@ -49,5 +52,21 @@ public class ServersDAOTest {
         Key key = KeyFactory.createKey("server", "testUser:serverName");
         Entity retrievedServer = ds.get(key);
         Assert.assertEquals("serverName", retrievedServer.getProperty("serverName"));
+    }
+
+    @Test
+    /*
+     * Test that a userer servers are retrieved, but other user's servers are not
+     */
+    public void testGetServers() throws com.google.appengine.api.datastore.EntityNotFoundException {
+        
+        serversDAO.createServer("serverName", "serverType", "instanceType", 20, "testUser");
+        serversDAO.createServer("serverName2", "serverType", "instanceType", 20, "testUser");
+        serversDAO.createServer("serverName", "serverType", "instanceType", 20, "testUser2");
+        
+        List<Server> serverList = serversDAO.getServersByOwner("testUser");
+        Assert.assertNotNull(serverList);
+        
+        Assert.assertEquals(2, serverList.size());
     }
 }
