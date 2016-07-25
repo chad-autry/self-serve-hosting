@@ -20,10 +20,18 @@ import com.google.cloud.compute.MachineTypeId;
 import com.google.cloud.compute.NetworkId;
 import com.google.cloud.compute.NetworkInterface;
 import com.google.cloud.compute.Operation;
+
+import hosting.serve.self.model.Server;
 import hosting.serve.self.services.ServersService;
+
 import java.util.concurrent.TimeoutException;
+import java.util.List;
 import java.util.logging.Logger;
 
+import javax.json.Json;
+import javax.json.JsonArray;
+import javax.json.JsonArrayBuilder;
+import javax.json.JsonObject;
 /**
  * This controller is for instance manipulation
  * Creating, Starting, Stopping, Listing, Deleteing
@@ -178,13 +186,27 @@ public class ServersController {
     @RequestMapping(value="/getServers", method=RequestMethod.POST)
     @ResponseBody
     public String getServers() {
-        //Who are we getting servers for? Are they authorized
-        //Whose servers can they see?
-        //Are there any optional filters/sort order on the request?
-        //What about paging parameters?
-        
+        //TODO Get ownerId as a parameter (validate authorized admin)
+        //TODO Get servers visible to user
+        //TODO Paging?
+        //TODO Filter Parameters?
+
+        String ownerId = userService.getCurrentUser().getUserId();
+        JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
+        List<Server> serversList = serversService.getServers(ownerId);
+        for (Server server : serversList) {
+            arrayBuilder.add(Json.createObjectBuilder()
+                .add("ownerName", server.getOwnerName())
+                .add("serverName", server.getServerName())
+                .add("zoneName", server.getZoneName())
+                .add("instanceType", server.getInstanceType())
+                .add("diskSize", server.getDiskSize())
+                .add("status", server.getStatus())
+            );
+        }
+
         //First pass: Return all servers only for the logged on user
-        return "";
+        return arrayBuilder.build().toString();
     }
     
     public void setServersService(ServersService serversService) {

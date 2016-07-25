@@ -40,6 +40,11 @@ Copyright 2015 Google Inc. All Rights Reserved.
       <version>2.5</version>
     </dependency>
     <dependency>
+      <groupId>org.glassfish</groupId>
+      <artifactId>javax.json</artifactId>
+      <version>1.0.4</version>
+    </dependency>
+    <dependency>
       <groupId>com.google.cloud</groupId>
       <artifactId>gcloud-java</artifactId>
       <version>0.2.3</version>
